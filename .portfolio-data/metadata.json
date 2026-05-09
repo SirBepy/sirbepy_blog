@@ -1,0 +1,14 @@
+{
+  "title": "SirBepy Blog",
+  "shortDescription": "Personal blog on AI-assisted development, vibecoding, and building from scratch.",
+  "type": "Web",
+  "status": "in-progress",
+  "languages": ["HTML", "CSS", "JavaScript"],
+  "frameworks": [],
+  "tools": [],
+  "liveUrl": "https://sirbepy.github.io/sirbepy_blog/",
+  "mainImage": "screenshot-1.png",
+  "images": ["screenshot-1.png"],
+  "year": 2026,
+  "impressiveness": 2
+}
