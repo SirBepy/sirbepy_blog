@@ -1,0 +1,12 @@
+{
+  "posts": [
+    {
+      "slug": "how-claude-code-works",
+      "title": "How Claude Code actually works",
+      "description": "A quick mental model so you stop fighting the tool.",
+      "date": "2026-05-09",
+      "readingTime": 4,
+      "tags": ["claude-code", "basics", "vibecoding"]
+    }
+  ]
+}

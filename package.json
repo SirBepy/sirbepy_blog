@@ -1,0 +1,13 @@
+{
+  "name": "sirbepy_blog",
+  "private": true,
+  "type": "module",
+  "description": "Deps used only by CI prerender. Local dev does not need npm install.",
+  "scripts": {
+    "prerender": "node scripts/prerender.mjs"
+  },
+  "dependencies": {
+    "gray-matter": "^4.0.3",
+    "marked": "^14.1.3"
+  }
+}

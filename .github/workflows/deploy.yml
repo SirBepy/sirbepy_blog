@@ -18,6 +18,16 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install prerender deps
+        run: npm install --no-audit --no-fund
+
+      - name: Prerender markdown posts
+        run: node scripts/prerender.mjs
+
       - name: Inject build info
         run: |
           BUILD_TIME=$(date -u +"%Y-%m-%d %H:%M:%S UTC")
