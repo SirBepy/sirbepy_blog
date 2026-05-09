@@ -30,7 +30,7 @@ assets/images/               favicon etc.
 
 - Local dev: no npm needed. `posts/preview.html?slug=<slug>` renders a post in the browser using viewer.js.
 - CI dev: GitHub Actions runs `node scripts/prerender.mjs` to generate static `posts/[slug].html` (with proper OG meta) and `posts.json` before deploy.
-- Each post is a markdown file under `posts/`. Frontmatter required: `title`, `description`, `date` (YYYY-MM-DD), `slug` (matches filename), `readingTime`.
+- Each post is a markdown file under `posts/`. Frontmatter required: `title`, `description`, `date` (YYYY-MM-DD), `slug` (matches filename), `readingTime`, `importance` (one of `must-know` / `level-up` / `optional`).
 - Callouts use GFM admonitions (`> [!tip] Title`, `> [!warning] Title`). Renderer transforms them into `.card.card-tip`, `.card.card-warning`, etc.
 - CSS vars from styleguide CDN, never hardcode colors.
 - MUST have favicon.svg + favicon.png + favicon.ico in assets/images/.

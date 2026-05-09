@@ -16,13 +16,36 @@ A personal blog where SirBepy documents findings on AI-assisted development, vib
 
 ---
 
-## How to run
+## How to run locally
 
-Open `index.html` in a browser. No build step, no npm needed for local dev.
+You need a static server because the page uses `fetch()` and ES modules. `file://` won't work.
 
-Preview a post locally: `posts/preview.html?slug=<slug>`. The page fetches the matching `.md` file and renders it client-side.
+**Option 1: VS Code Live Server (easiest)**
 
-CI runs `node scripts/prerender.mjs` on push to master to generate static `posts/<slug>.html` files (with proper Open Graph meta) plus `posts.json` for the homepage list.
+1. Open VS Code on the **project root** (the folder containing `index.html`), not on a subfolder.
+2. Click "Go Live" in the status bar, OR right-click `index.html` and pick "Open with Live Server".
+3. Browser opens at `http://127.0.0.1:5500/`. Click a post card.
+
+The repo includes `.vscode/settings.json` pinning Live Server's root to the workspace, so paths always resolve correctly.
+
+**Option 2: Python**
+
+```
+python -m http.server 8080
+```
+
+Open `http://localhost:8080/`.
+
+**Option 3: One-shot npx**
+
+```
+npx --yes serve .
+```
+
+## How posts are built
+
+- Local preview: open `posts/<slug>.html` (committed client-side stub) or `posts/preview.html?slug=<slug>`. Both fetch the `.md` and render in browser.
+- CI (push to master): GitHub Actions runs `node scripts/prerender.mjs` to generate static `posts/<slug>.html` (with proper OG meta) plus `posts.json` for the homepage list, then deploys to GitHub Pages.
 
 ---
 
