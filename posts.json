@@ -1,11 +1,57 @@
 {
   "posts": [
     {
+      "slug": "obsidian-zettelkasten",
+      "title": "Why do I take notes in Obsidian?",
+      "description": "A note-taking system that makes your brain less leaky. Bonus, what's Zettelkasten?",
+      "date": "2026-05-13",
+      "readingTime": 4,
+      "importance": "optional",
+      "tags": ["obsidian", "zettelkasten", "notes"]
+    },
+    {
+      "slug": "claude-code-skills",
+      "title": "Which Claude Code skills should I have?",
+      "description": "Skills are saved prompts that take arguments. Here are the ones I actually use.",
+      "date": "2026-05-12",
+      "readingTime": 4,
+      "importance": "level-up",
+      "tags": ["claude-code", "skills", "customization"]
+    },
+    {
+      "slug": "customize-claude-code-terminal",
+      "title": "How do I customize the Claude Code terminal?",
+      "description": "ccstatusline gives you a live readout right above your prompt. Here's how to set it up.",
+      "date": "2026-05-11",
+      "readingTime": 4,
+      "importance": "level-up",
+      "tags": ["claude-code", "customization", "ccstatusline"]
+    },
+    {
+      "slug": "what-is-claude-memory",
+      "title": "What is Claude's /memory?",
+      "description": "Claude has a memory feature. Here's why it's flaky and what to do instead.",
+      "date": "2026-05-10",
+      "readingTime": 3,
+      "importance": "optional",
+      "tags": ["claude-code", "memory", "basics"]
+    },
+    {
+      "slug": "what-is-claude-md",
+      "title": "What is CLAUDE.md?",
+      "description": "The two files that keep your standards alive across every /clear.",
+      "date": "2026-05-10",
+      "readingTime": 3,
+      "importance": "must-know",
+      "tags": ["claude-code", "claude-md", "basics"]
+    },
+    {
       "slug": "how-claude-code-works",
-      "title": "How Claude Code actually works",
+      "title": "How does Claude Code actually work?",
       "description": "A quick mental model so you stop fighting the tool.",
       "date": "2026-05-09",
-      "readingTime": 4,
+      "readingTime": 3,
+      "importance": "must-know",
       "tags": ["claude-code", "basics", "vibecoding"]
     }
   ]
