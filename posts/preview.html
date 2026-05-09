@@ -10,6 +10,7 @@
     <meta name="description" content="SirBepy blog post preview" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/sirbepy/bepy-project-init@main/styleguide.css" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism.min.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/plugins/line-numbers/prism-line-numbers.min.css" />
     <link rel="stylesheet" href="../src/styles/styles.css" />
     <script src="https://unpkg.com/@phosphor-icons/web"></script>
   </head>
@@ -23,14 +24,19 @@
         <span class="badge badge-info" id="preview-badge">Local preview</span>
       </nav>
 
-      <article class="post" id="post-root">
-        <p class="post-loading">Loading post...</p>
-      </article>
+      <div class="post-layout">
+        <article class="post" id="post-root">
+          <p class="post-loading">Loading post...</p>
+        </article>
+        <aside class="post-toc" id="post-toc"></aside>
+      </div>
     </main>
 
     <script src="https://cdn.jsdelivr.net/npm/marked@14.1.3/marked.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-core.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/plugins/autoloader/prism-autoloader.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/plugins/line-numbers/prism-line-numbers.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/lenis@1.1.18/dist/lenis.min.js"></script>
     <script type="module" src="../src/scripts/viewer.js"></script>
     <script src="https://cdn.jsdelivr.net/gh/sirbepy/bepy-project-init@main/widget/settings.js"></script>
     <script src="https://cdn.jsdelivr.net/gh/sirbepy/bepy-project-init@main/widget/background.js"></script>

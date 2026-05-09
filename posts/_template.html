@@ -16,6 +16,7 @@
     <meta name="twitter:card" content="summary" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/sirbepy/bepy-project-init@main/styleguide.css" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism.min.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/plugins/line-numbers/prism-line-numbers.min.css" />
     <link rel="stylesheet" href="../src/styles/styles.css" />
     <script src="https://unpkg.com/@phosphor-icons/web"></script>
   </head>
@@ -26,37 +27,44 @@
           <i class="ph ph-arrow-left"></i>
           <span>All posts</span>
         </a>
-        <a href="./{{SLUG}}.md" class="download-link" title="Download as Markdown for Obsidian">
-          <i class="ph ph-download-simple"></i>
-          <span>.md</span>
-        </a>
       </nav>
 
-      <article class="post">
-        <header class="post-header">
-          <h1>{{TITLE}}</h1>
-          <p class="post-subtitle">{{DESCRIPTION}}</p>
-          <div class="post-meta">
-            <span class="post-date"><i class="ph ph-calendar-blank"></i> {{DATE}}</span>
-            <span class="post-reading-time"><i class="ph ph-clock"></i> {{READING_TIME}} min read</span>
-          </div>
-        </header>
+      <div class="post-layout">
+        <article class="post">
+          <header class="post-header">
+            <h1>{{TITLE}}</h1>
+            <p class="post-subtitle">{{DESCRIPTION}}</p>
+            <div class="post-meta">
+              <span class="post-date"><i class="ph ph-calendar-blank"></i> {{DATE}}</span>
+              <span class="post-reading-time"><i class="ph ph-clock"></i> {{READING_TIME}} min read</span>
+            </div>
+          </header>
 
-        <div class="post-body">
+          <div class="post-body">
 {{BODY}}
-        </div>
+          </div>
 
-        <footer class="post-footer">
-          <a href="../index.html" class="back-link">
-            <i class="ph ph-arrow-left"></i>
-            <span>Back to all posts</span>
-          </a>
-        </footer>
-      </article>
+          <footer class="post-footer">
+            <a href="../index.html" class="back-link">
+              <i class="ph ph-arrow-left"></i>
+              <span>Back to all posts</span>
+            </a>
+          </footer>
+        </article>
+
+        <aside class="post-toc" id="post-toc"></aside>
+      </div>
     </main>
 
+    <script>
+      // Tag code blocks BEFORE Prism runs so the line-numbers plugin picks them up.
+      document.querySelectorAll('.post-body pre').forEach((p) => p.classList.add('line-numbers'));
+    </script>
     <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-core.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/plugins/autoloader/prism-autoloader.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/plugins/line-numbers/prism-line-numbers.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/lenis@1.1.18/dist/lenis.min.js"></script>
+    <script type="module" src="../src/scripts/post-enhance.js"></script>
     <script src="https://cdn.jsdelivr.net/gh/sirbepy/bepy-project-init@main/widget/settings.js"></script>
     <script src="https://cdn.jsdelivr.net/gh/sirbepy/bepy-project-init@main/widget/background.js"></script>
   </body>

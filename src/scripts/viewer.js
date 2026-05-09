@@ -1,7 +1,8 @@
 // Local-dev MD viewer. Used by posts/preview.html.
 // Production posts are prerendered to HTML in CI; this file is not loaded there.
 
-import { transformAdmonitions, readingTimeFromMarkdown } from './md-transform.js';
+import { transformAdmonitions, wrapTldrSection, readingTimeFromMarkdown } from './md-transform.js';
+import { enhancePost } from './post-enhance.js';
 
 const SLUG_PARAM = 'slug';
 
@@ -80,7 +81,7 @@ async function loadAndRender() {
 
   document.title = `${title} - SirBepy Blog`;
 
-  const renderedBody = transformAdmonitions(window.marked.parse(content));
+  const renderedBody = wrapTldrSection(transformAdmonitions(window.marked.parse(content)));
 
   root.innerHTML = `
     <header class="post-header">
@@ -104,9 +105,14 @@ async function loadAndRender() {
     </footer>
   `;
 
+  // Tag code blocks BEFORE highlighting so the line-numbers plugin picks them up.
+  root.querySelectorAll('.post-body pre').forEach((p) => p.classList.add('line-numbers'));
+
   if (window.Prism && window.Prism.highlightAll) {
     window.Prism.highlightAll();
   }
+
+  enhancePost();
 }
 
 if (document.readyState === 'loading') {

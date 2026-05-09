@@ -16,7 +16,7 @@ const ADMONITION_LABELS = {
 // Transform that into <div class="card card-{type}"> with an icon header.
 export function transformAdmonitions(html) {
   return html.replace(
-    /<blockquote>\s*<p>\[!(\w+)\]([^\n<]*?)(?:\n([\s\S]*?))?<\/p>([\s\S]*?)<\/blockquote>/gi,
+    /<blockquote>\s*<p>\[!(\w+)\]([^\n]*?)(?:\n([\s\S]*?))?<\/p>([\s\S]*?)<\/blockquote>/gi,
     (_match, rawType, rawTitle, firstParaBody, rest) => {
       const type = rawType.toLowerCase();
       const meta = ADMONITION_LABELS[type] || { icon: 'ph-quotes', label: type };
@@ -33,6 +33,19 @@ export function transformAdmonitions(html) {
   </div>
   <div class="card-admonition-body">${bodyParts.join('\n')}</div>
 </div>`;
+    }
+  );
+}
+
+// Wrap any `<h2>TL;DR</h2>` heading + its content (until next h2 or end) in a
+// `<section class="tldr">` block. Convention-based: matches `/^TL;?\s*DR/i`.
+// Also injects a phosphor lightning icon inside the heading.
+export function wrapTldrSection(html) {
+  return html.replace(
+    /(<h2(?:\s+[^>]*)?>\s*)(TL;?\s*DR[^<]*?)(\s*<\/h2>)([\s\S]*?)(?=<h2|$)/i,
+    (_match, openTag, headingText, closeTag, body) => {
+      const heading = `${openTag}<i class="ph ph-lightning"></i><span>${headingText.trim()}</span>${closeTag}`;
+      return `<section class="tldr">${heading}${body}</section>`;
     }
   );
 }

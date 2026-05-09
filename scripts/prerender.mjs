@@ -6,7 +6,7 @@ import { fileURLToPath } from 'node:url';
 import { dirname, join, resolve } from 'node:path';
 import matter from 'gray-matter';
 import { marked } from 'marked';
-import { transformAdmonitions, readingTimeFromMarkdown } from '../src/scripts/md-transform.js';
+import { transformAdmonitions, wrapTldrSection, readingTimeFromMarkdown } from '../src/scripts/md-transform.js';
 
 const here = dirname(fileURLToPath(import.meta.url));
 const root = resolve(here, '..');
@@ -14,7 +14,8 @@ const postsDir = join(root, 'posts');
 const templatePath = join(postsDir, '_template.html');
 const indexPath = join(root, 'posts.json');
 
-const REQUIRED_FIELDS = ['title', 'description', 'date', 'slug'];
+const REQUIRED_FIELDS = ['title', 'description', 'date', 'slug', 'importance'];
+const VALID_IMPORTANCE = new Set(['must-know', 'level-up', 'optional']);
 
 function fillTemplate(template, vars) {
   return template.replace(/\{\{(\w+)\}\}/g, (_, key) => {
@@ -43,9 +44,12 @@ async function prerenderOne(template, file) {
   if (parsed.data.slug !== slug) {
     throw new Error(`${file}: frontmatter slug "${parsed.data.slug}" does not match filename`);
   }
+  if (!VALID_IMPORTANCE.has(parsed.data.importance)) {
+    throw new Error(`${file}: importance "${parsed.data.importance}" is not one of ${[...VALID_IMPORTANCE].join(', ')}`);
+  }
 
   const readingTime = parsed.data.readingTime || readingTimeFromMarkdown(parsed.content);
-  const renderedBody = transformAdmonitions(marked.parse(parsed.content));
+  const renderedBody = wrapTldrSection(transformAdmonitions(marked.parse(parsed.content)));
 
   const html = fillTemplate(template, {
     TITLE: escapeHtml(parsed.data.title),
@@ -64,6 +68,7 @@ async function prerenderOne(template, file) {
     description: parsed.data.description,
     date: parsed.data.date,
     readingTime,
+    importance: parsed.data.importance,
     tags: parsed.data.tags ? String(parsed.data.tags).split(',').map((t) => t.trim()).filter(Boolean) : [],
   };
 }

@@ -1,5 +1,23 @@
 /* sirbepy_blog styles */
 
+/* Lenis smooth scroll: disables native smooth behavior so Lenis can drive scroll */
+html.lenis-enabled,
+html.lenis-enabled body {
+  scroll-behavior: auto !important;
+}
+
+html.lenis-enabled.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+
+html.lenis-enabled.lenis-stopped {
+  overflow: hidden;
+}
+
+html.lenis-enabled .lenis.lenis-scrolling iframe {
+  pointer-events: none;
+}
+
 /* ---------- Layout ---------- */
 
 body {
@@ -15,15 +33,158 @@ main {
   padding: 2rem 1.25rem 5rem;
 }
 
-header h1 {
-  font-family: var(--font-heading);
-  margin: 0 0 0.25rem;
-  font-size: clamp(1.8rem, 4vw, 2.6rem);
+main.post-page {
+  max-width: 1180px;
 }
 
-header p {
+.home-header {
+  text-align: center;
+  margin: 1rem 0 2.6rem;
+}
+
+.home-header h1 {
+  font-family: var(--font-heading);
+  margin: 0 0 0.4rem;
+  font-size: clamp(2rem, 5vw, 3rem);
+  line-height: 1.1;
+}
+
+.home-header p {
   color: var(--color-text-muted);
-  margin: 0 0 2rem;
+  margin: 0;
+  font-size: 1.05rem;
+}
+
+/* ---------- Homepage importance colors (shared by start-here + post cards) ---------- */
+
+:root {
+  --color-must-know: #d96d6d;
+  --color-level-up: var(--color-secondary);
+  --color-optional: var(--color-text-muted);
+}
+
+/* ---------- Start-here hero ---------- */
+
+.start-here {
+  margin-bottom: 2.4rem;
+}
+
+.start-here-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1.1rem;
+}
+
+.start-here-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 0.16em;
+  color: var(--color-primary);
+  margin: 0;
+  padding-bottom: 0.4rem;
+  border-bottom: 1px dashed color-mix(in srgb, var(--color-primary) 35%, transparent);
+}
+
+.start-here-dismiss {
+  background: transparent;
+  border: 1px solid var(--color-border);
+  border-radius: 6px;
+  width: 28px;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-text-muted);
+  cursor: pointer;
+  transition: color 0.12s ease, border-color 0.12s ease;
+}
+
+.start-here-dismiss:hover {
+  color: var(--color-primary);
+  border-color: var(--color-primary);
+}
+
+.start-here-list {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+}
+
+@media (max-width: 720px) {
+  .start-here-list { grid-template-columns: 1fr; }
+}
+
+.start-here-step {
+  position: relative;
+  display: block;
+  text-decoration: none;
+  color: inherit;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-left: 4px solid var(--color-must-know);
+  border-radius: 12px;
+  padding: 1.6rem 1.2rem 1.1rem;
+  transition: transform 0.12s ease, border-color 0.12s ease;
+}
+
+.start-here-step:hover {
+  transform: translateY(-2px);
+  border-color: var(--color-primary);
+  border-left-color: var(--color-must-know);
+}
+
+.start-here-step.level-up { border-left-color: var(--color-level-up); }
+.start-here-step.optional { border-left-color: var(--color-optional); }
+
+.start-here-step.is-read {
+  opacity: 0.7;
+}
+
+.start-here-num {
+  position: absolute;
+  top: -14px;
+  left: 16px;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: var(--color-primary);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-mono);
+  font-weight: 700;
+  font-size: 0.85rem;
+}
+
+.start-here-step h3 {
+  font-family: var(--font-heading);
+  margin: 0 0 0.4rem;
+  font-size: 1.05rem;
+  color: var(--color-text);
+}
+
+.start-here-step p {
+  margin: 0 0 0.7rem;
+  color: var(--color-text-muted);
+  font-size: 0.92rem;
+  line-height: 1.5;
+}
+
+.start-here-meta {
+  display: flex;
+  gap: 0.9rem;
+  font-size: 0.78rem;
+  color: var(--color-text-muted);
+}
+
+.start-here-meta .read-tick {
+  color: var(--color-primary);
 }
 
 /* ---------- Homepage post list ---------- */
@@ -35,9 +196,11 @@ header p {
 
 .post-card {
   display: block;
+  position: relative;
   padding: 1.25rem 1.4rem;
   background: var(--color-surface);
   border: 1px solid var(--color-border);
+  border-left: 4px solid var(--color-optional);
   border-radius: var(--radius-card);
   box-shadow: var(--shadow-card);
   text-decoration: none;
@@ -45,10 +208,32 @@ header p {
   transition: transform 0.12s ease, border-color 0.12s ease;
 }
 
+.post-card.must-know { border-left-color: var(--color-must-know); }
+.post-card.level-up  { border-left-color: var(--color-level-up); }
+.post-card.optional  { border-left-color: var(--color-optional); }
+
 .post-card:hover {
   transform: translateY(-2px);
   border-color: var(--color-primary);
 }
+
+.post-card.must-know:hover { border-left-color: var(--color-must-know); }
+.post-card.level-up:hover  { border-left-color: var(--color-level-up); }
+.post-card.optional:hover  { border-left-color: var(--color-optional); }
+
+.post-card-tier {
+  position: absolute;
+  top: 1rem;
+  right: 1.2rem;
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  color: var(--color-text-muted);
+}
+
+.post-card.must-know .post-card-tier { color: var(--color-must-know); font-weight: 600; }
+.post-card.level-up  .post-card-tier { color: var(--color-level-up); font-weight: 600; }
 
 .post-card-meta {
   display: flex;
@@ -91,17 +276,61 @@ header p {
   transition: transform 0.12s ease;
 }
 
-/* ---------- Post page ---------- */
+/* ---------- About section (homepage footer) ---------- */
 
-.post-page {
-  max-width: 720px;
+.about-section {
+  margin-top: 4rem;
+  padding-top: 2rem;
+  border-top: 1px dashed var(--color-border);
+  text-align: center;
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
 }
+
+.about-section h2 {
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 0.16em;
+  color: var(--color-primary);
+  margin: 0 0 1rem;
+}
+
+.about-section p {
+  color: var(--color-text-muted);
+  margin: 0 0 0.7rem;
+  line-height: 1.7;
+}
+
+.about-section .about-meta {
+  font-size: 0.9rem;
+  margin-top: 1rem;
+}
+
+/* ---------- Post page layout (article + sticky TOC) ---------- */
 
 .post-nav-top {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 2rem;
+  margin-bottom: 1.4rem;
+}
+
+.post-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 220px;
+  gap: 2.5rem;
+  align-items: start;
+}
+
+@media (max-width: 980px) {
+  .post-layout {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .post-toc {
+    display: none;
+  }
 }
 
 .back-link,
@@ -124,6 +353,46 @@ header p {
   color: var(--color-primary);
   border-color: var(--color-primary);
 }
+
+/* ---------- Post card ---------- */
+
+.post {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-card, 12px);
+  padding: 2.6rem clamp(1.25rem, 3vw, 2.6rem) 2.2rem;
+  position: relative;
+  max-width: 820px;
+  width: 100%;
+  justify-self: start;
+}
+
+/* Viewport-edge fades: fixed overlays that fade page bg over content. JS toggles. */
+body::before,
+body::after {
+  content: '';
+  position: fixed;
+  left: 0;
+  right: 0;
+  height: 70px;
+  pointer-events: none;
+  z-index: 50;
+  opacity: 0;
+  transition: opacity 0.18s ease;
+}
+
+body::before {
+  top: 0;
+  background: linear-gradient(to bottom, var(--color-background) 30%, transparent);
+}
+
+body::after {
+  bottom: 0;
+  background: linear-gradient(to top, var(--color-background) 30%, transparent);
+}
+
+body.is-scrolled-top::before { opacity: 1; }
+body.is-scrolled-bottom::after { opacity: 1; }
 
 .post-header {
   margin-bottom: 2.2rem;
@@ -156,23 +425,51 @@ header p {
 }
 
 .post-body {
-  font-size: 1.02rem;
+  font-size: 1.05rem;
+  line-height: 1.7;
 }
 
 .post-body h2 {
   font-family: var(--font-heading);
-  margin-top: 2.5rem;
-  margin-bottom: 0.7rem;
-  font-size: 1.45rem;
-  border-bottom: 1px solid var(--color-border);
-  padding-bottom: 0.35rem;
+  margin-top: 4rem;
+  margin-bottom: 0.8rem;
+  font-size: 1.55rem;
+  letter-spacing: -0.01em;
+  position: relative;
+  padding-left: 0.85rem;
+  scroll-margin-top: 1.5rem;
+}
+
+.post-body h2:first-child {
+  margin-top: 0.5rem;
+}
+
+.post-body h2::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0.2rem;
+  bottom: 0.2rem;
+  width: 4px;
+  border-radius: 2px;
+  background: var(--color-primary);
 }
 
 .post-body h3 {
   font-family: var(--font-heading);
-  margin-top: 1.8rem;
-  margin-bottom: 0.5rem;
-  font-size: 1.2rem;
+  margin-top: 2.4rem;
+  margin-bottom: 0.6rem;
+  font-size: 1.18rem;
+  color: var(--color-text);
+  scroll-margin-top: 1.5rem;
+}
+
+.post-body p,
+.post-body li,
+.post-body ul,
+.post-body ol {
+  font-size: 1.05rem;
+  line-height: 1.7;
 }
 
 .post-body p {
@@ -182,49 +479,161 @@ header p {
 .post-body a {
   color: var(--color-primary);
   text-decoration: underline;
-  text-underline-offset: 2px;
+  text-underline-offset: 3px;
+  text-decoration-thickness: 1px;
+}
+
+.post-body a:hover {
+  text-decoration-thickness: 2px;
+}
+
+.post-body strong {
+  color: var(--color-text);
+  font-weight: 700;
 }
 
 .post-body ul,
 .post-body ol {
   padding-left: 1.4rem;
-  margin: 0 0 1.05rem;
+  margin: 0 0 1.2rem;
 }
 
 .post-body li {
-  margin-bottom: 0.35rem;
+  margin-bottom: 0.45rem;
 }
 
-.post-body code {
-  font-family: var(--font-mono);
-  font-size: 0.92em;
-  background: var(--color-surface-alt);
-  padding: 0.12em 0.4em;
-  border-radius: 4px;
+.post-body li > p {
+  margin: 0 0 0.45rem;
 }
+
+/* Inline code: subtle tint, no heavy box */
+.post-body :not(pre) > code {
+  font-family: var(--font-mono);
+  font-size: 0.88em;
+  background: color-mix(in srgb, var(--color-primary) 12%, transparent);
+  color: var(--color-text);
+  padding: 0.14em 0.38em;
+  border-radius: 4px;
+  border: 1px solid color-mix(in srgb, var(--color-primary) 22%, transparent);
+}
+
+/* ---------- Code blocks: IDE feel, match page bg, no border/shadow ---------- */
 
 .post-body pre {
   font-family: var(--font-mono);
-  background: var(--color-surface-alt);
-  border: 1px solid var(--color-border);
+  background: var(--color-background);
+  border: none;
   border-radius: 6px;
-  padding: 0.9rem 1rem;
+  padding: 1rem 1.15rem;
   overflow-x: auto;
-  font-size: 0.9rem;
-  line-height: 1.5;
-  margin: 0 0 1.2rem;
+  font-size: 0.88rem;
+  line-height: 1.55;
+  margin: 0 0 1.4rem;
+  position: relative;
+  box-shadow: none;
 }
 
 .post-body pre code {
   background: transparent;
   padding: 0;
+  border: none;
   font-size: inherit;
+  color: var(--color-text);
+  text-shadow: none;
+}
+
+/* Override prism theme defaults (drop white text-shadow that creates the "glow") */
+.post-body pre[class*="language-"],
+.post-body code[class*="language-"] {
+  text-shadow: none;
+  background: transparent;
+  color: var(--color-text);
+}
+
+.post-body pre[class*="language-"] {
+  background: var(--color-background);
+}
+
+/* Line numbers (Prism line-numbers plugin) */
+.post-body pre.line-numbers {
+  padding-left: 3.6rem;
+  counter-reset: linenumber;
+}
+
+.post-body pre.line-numbers > code {
+  position: static;
+  white-space: inherit;
+}
+
+.post-body pre .line-numbers-rows {
+  position: absolute;
+  pointer-events: none;
+  top: 1rem;
+  left: 0.4rem;
+  width: 2.4rem;
+  letter-spacing: 0;
+  border-right: 1px solid color-mix(in srgb, var(--color-border) 60%, transparent);
+  user-select: none;
+  -webkit-user-select: none;
+  font-size: 0.88rem;
+  line-height: 1.55;
+}
+
+.post-body pre .line-numbers-rows > span {
+  display: block;
+  counter-increment: linenumber;
+  pointer-events: none;
+}
+
+.post-body pre .line-numbers-rows > span::before {
+  content: counter(linenumber);
+  color: color-mix(in srgb, var(--color-text-muted) 50%, transparent);
+  display: block;
+  padding-right: 0.8rem;
+  text-align: right;
+}
+
+/* Copy button: hidden until hover */
+.post-body pre .code-copy {
+  position: absolute;
+  top: 0.55rem;
+  right: 0.55rem;
+  padding: 0.32rem 0.55rem;
+  font-size: 0.78rem;
+  font-family: var(--font-body);
+  color: var(--color-text-muted);
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: 5px;
+  cursor: pointer;
+  opacity: 0;
+  transition: opacity 0.12s ease, color 0.12s ease, border-color 0.12s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  z-index: 3;
+}
+
+.post-body pre:hover .code-copy,
+.post-body pre .code-copy:focus-visible {
+  opacity: 1;
+}
+
+.post-body pre .code-copy:hover {
+  color: var(--color-primary);
+  border-color: var(--color-primary);
+}
+
+.post-body pre .code-copy.is-copied {
+  color: #5bc88a;
+  border-color: #5bc88a;
+  opacity: 1;
 }
 
 .post-body hr {
   border: none;
   border-top: 1px solid var(--color-border);
-  margin: 2rem 0;
+  margin: 2.4rem 0;
 }
 
 .post-body blockquote {
@@ -258,10 +667,190 @@ header p {
   font-style: italic;
 }
 
+/* ---------- Sticky side TOC ---------- */
+
+.post-toc {
+  position: sticky;
+  top: 5.5rem;
+  align-self: start;
+  max-height: calc(100vh - 7rem);
+  overflow-y: auto;
+  font-size: 0.88rem;
+  padding-left: 0.8rem;
+  border-left: 1px solid var(--color-border);
+}
+
+.post-toc-title {
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 0.16em;
+  color: var(--color-primary);
+  margin: 0 0 0.9rem;
+  padding-bottom: 0.6rem;
+  border-bottom: 1px dashed color-mix(in srgb, var(--color-primary) 35%, transparent);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+}
+
+.post-toc-title::before {
+  content: '#';
+  color: color-mix(in srgb, var(--color-primary) 60%, transparent);
+  font-weight: 600;
+}
+
+.post-toc ol {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  position: relative;
+}
+
+.post-toc li.toc-h3 {
+  padding-left: 0.9rem;
+  font-size: 0.83rem;
+}
+
+.post-toc a {
+  display: block;
+  text-decoration: none;
+  background-image: none !important;
+  color: var(--color-text-muted);
+  line-height: 1.35;
+  padding: 0.18rem 0 0.18rem 0.6rem;
+  margin-left: -0.8rem;
+  transition: color 0.18s ease;
+  text-shadow: none !important;
+}
+
+.post-toc a:hover {
+  color: var(--color-text);
+  background-image: none !important;
+  background-size: 0 0 !important;
+  text-shadow: none !important;
+}
+
+.post-toc a.is-active {
+  color: var(--color-primary);
+}
+
+.post-toc-indicator {
+  position: absolute;
+  left: -0.8rem;
+  width: 2px;
+  background: var(--color-primary);
+  border-radius: 2px;
+  top: 0;
+  height: 0;
+  opacity: 0;
+  pointer-events: none;
+  transition:
+    top 0.36s cubic-bezier(0.22, 0.61, 0.36, 1),
+    height 0.36s cubic-bezier(0.22, 0.61, 0.36, 1),
+    opacity 0.2s ease;
+}
+
+.post-toc-indicator.is-visible {
+  opacity: 1;
+}
+
+.post-toc-progress {
+  margin-top: 0.9rem;
+  height: 3px;
+  background: var(--color-border);
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+.post-toc-progress-bar {
+  height: 100%;
+  width: 0%;
+  background: var(--color-primary);
+  transition: width 0.28s cubic-bezier(0.22, 0.61, 0.36, 1);
+}
+
+.post-related {
+  margin-top: 1.6rem;
+  padding-top: 1.1rem;
+  border-top: 1px solid var(--color-border);
+}
+
+.post-related ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.55rem;
+}
+
+.post-related a {
+  display: block;
+  text-decoration: none;
+  background-image: none !important;
+  text-shadow: none !important;
+  color: var(--color-text-muted);
+  font-size: 0.86rem;
+  line-height: 1.35;
+  transition: color 0.18s ease;
+}
+
+.post-related a:hover {
+  color: var(--color-primary);
+  background-image: none !important;
+  background-size: 0 0 !important;
+  text-shadow: none !important;
+}
+
+/* ---------- TL;DR block (auto-wrapped from `## TL;DR` heading) ---------- */
+
+.post-body .tldr {
+  background: color-mix(in srgb, var(--color-primary) 8%, transparent);
+  border: 1px solid color-mix(in srgb, var(--color-primary) 22%, transparent);
+  border-left: 4px solid var(--color-primary);
+  border-radius: 8px;
+  padding: 1.1rem 1.3rem 1.3rem;
+  margin: 1.6rem 0 2rem;
+}
+
+.post-body .tldr h2 {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-family: var(--font-heading);
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: var(--color-primary);
+  margin: 0 0 0.6rem;
+  padding-left: 0;
+  scroll-margin-top: 1.5rem;
+}
+
+.post-body .tldr h2::before {
+  display: none;
+}
+
+.post-body .tldr h2 i {
+  font-size: 1.1rem;
+}
+
+.post-body .tldr ul,
+.post-body .tldr ol {
+  margin-bottom: 0;
+}
+
+.post-body .tldr > :last-child {
+  margin-bottom: 0;
+}
+
 /* ---------- Admonition cards (from GFM > [!type] blocks) ---------- */
 
 .card-admonition {
-  margin: 1.2rem 0;
+  margin: 1.4rem 0;
   padding: 0.9rem 1.1rem;
   border-left: 4px solid var(--color-primary);
 }

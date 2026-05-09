@@ -2,3 +2,19 @@
 node_modules/
 dist/
 .env
+
+# Editor / IDE
+.vscode/
+.idea/
+
+# Local-only Claude Code state
+.claude/
+.for_bepy/
+
+# Playwright MCP scratch dir
+.playwright-mcp/
+
+# Throwaway test screenshots and one-off preview pages
+test-*.png
+_preview-*.html
+image.png
