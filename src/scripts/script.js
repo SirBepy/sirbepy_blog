@@ -1,8 +1,6 @@
 // Homepage: fetch posts.json, render Start-here hero + main post list + about.
-// Auto-hides Start-here once the reader has visited every post in it (localStorage).
 
 const READ_KEY = (slug) => `read:${slug}`;
-const DISMISS_KEY = 'startHereDismissed';
 
 function escapeHtml(s) {
   return String(s)
@@ -31,10 +29,6 @@ function pickStartHere(posts) {
 
 function isPostRead(slug) {
   try { return !!localStorage.getItem(READ_KEY(slug)); } catch { return false; }
-}
-
-function startHereDismissed() {
-  try { return !!localStorage.getItem(DISMISS_KEY); } catch { return false; }
 }
 
 function renderStartHere(picks) {
@@ -110,26 +104,15 @@ async function loadPosts() {
   }
 
   const startHere = pickStartHere(posts);
-  const allRead = startHere.every((p) => isPostRead(p.slug));
-  const showStartHere = !startHereDismissed() && !allRead && startHere.length > 0;
 
   const startHereSection = document.getElementById('start-here');
-  if (showStartHere) {
+  if (startHere.length > 0) {
     renderStartHere(startHere);
     startHereSection.hidden = false;
     const restSlugs = new Set(startHere.map((p) => p.slug));
     renderPostList(posts.filter((p) => !restSlugs.has(p.slug)));
   } else {
     renderPostList(posts);
-  }
-
-  const dismissBtn = document.getElementById('start-here-dismiss');
-  if (dismissBtn) {
-    dismissBtn.addEventListener('click', () => {
-      try { localStorage.setItem(DISMISS_KEY, '1'); } catch {}
-      startHereSection.hidden = true;
-      renderPostList(posts);
-    });
   }
 }
 

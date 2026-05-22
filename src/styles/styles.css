@@ -90,24 +90,6 @@ main.post-page {
   border-bottom: 1px dashed color-mix(in srgb, var(--color-primary) 35%, transparent);
 }
 
-.start-here-dismiss {
-  background: transparent;
-  border: 1px solid var(--color-border);
-  border-radius: 6px;
-  width: 28px;
-  height: 28px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: var(--color-text-muted);
-  cursor: pointer;
-  transition: color 0.12s ease, border-color 0.12s ease;
-}
-
-.start-here-dismiss:hover {
-  color: var(--color-primary);
-  border-color: var(--color-primary);
-}
 
 .start-here-list {
   display: grid;
