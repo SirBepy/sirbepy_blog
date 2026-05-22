@@ -23,6 +23,39 @@ function ensureUniqueId(el, used) {
   return id;
 }
 
+function startLenis() {
+  if (window.__lenis || typeof window.Lenis !== 'function') return;
+  document.documentElement.classList.add('lenis-enabled');
+  const lenis = new window.Lenis({
+    lerp: 0.1,
+    smoothWheel: true,
+    smoothTouch: false,
+  });
+  window.__lenis = lenis;
+  function raf(time) {
+    lenis.raf(time);
+    requestAnimationFrame(raf);
+  }
+  requestAnimationFrame(raf);
+}
+
+function initLenis() {
+  if (typeof window.Lenis !== 'function') return;
+
+  // Default: native scroll. Upgrade to Lenis only on confirmed mouse input.
+  // Trackpad always uses deltaMode 0 (pixel); physical mice use deltaMode 1 (line).
+  function onWheel(e) {
+    // deltaMode 1 = line units — only physical click-wheel mice report this
+    // trackpad always uses deltaMode 0 (pixel), even during fast momentum swipes
+    if (e.deltaMode === 1) {
+      window.removeEventListener('wheel', onWheel);
+      startLenis();
+    }
+  }
+
+  window.addEventListener('wheel', onWheel, { passive: true });
+}
+
 function smoothScrollTo(target) {
   if (window.__lenis && typeof window.__lenis.scrollTo === 'function') {
     window.__lenis.scrollTo(target, { offset: -16 });
@@ -257,22 +290,6 @@ async function renderRelated(tocRoot) {
   tocRoot.appendChild(section);
 }
 
-function initLenis() {
-  if (window.__lenis || typeof window.Lenis !== 'function') return;
-  document.documentElement.classList.add('lenis-enabled');
-  const lenis = new window.Lenis({
-    duration: 1.0,
-    easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
-    smoothWheel: true,
-    smoothTouch: false,
-  });
-  window.__lenis = lenis;
-  function raf(time) {
-    lenis.raf(time);
-    requestAnimationFrame(raf);
-  }
-  requestAnimationFrame(raf);
-}
 
 function markPostRead() {
   const slug = getCurrentSlug();
