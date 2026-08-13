@@ -54,7 +54,7 @@ function stubHtml({ title, description, slug }) {
     <meta name="description" content="${d}" />
     <meta property="og:title" content="${t}" />
     <meta property="og:description" content="${d}" />
-    <meta property="og:image" content="../assets/images/favicon.png" />
+    <meta property="og:image" content="https://sirbepy.github.io/sirbepy_blog/assets/images/favicon.png" />
     <meta property="og:url" content="https://sirbepy.github.io/sirbepy_blog/posts/${slug}.html" />
     <meta property="og:type" content="article" />
     <meta name="twitter:card" content="summary" />
